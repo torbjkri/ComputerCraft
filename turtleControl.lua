@@ -3,7 +3,7 @@
 
 
 globalPosition = {0,0,0}
-globalHeading = {0,1,0}
+globalHeading = {0,1}
 
 
 function forward()
@@ -56,6 +56,22 @@ function turnRight()
 	end
 end
 
+function up()
+	if turtle.detectUp()
+		turtle.digUp()
+	end
+	turtle.up()
+	globalPosition[3] = globalPosition[3] + 1
+end
+
+function down()
+	if turtle.detectDown()
+		turtle.digDown()
+	end
+	turtle.down()
+	globalPosition[3] = globalPosition[3] - 1
+end
+
 function goStart()
 	turtle.forward()
 end
@@ -70,6 +86,15 @@ function park()
 end
 
 function goHome()
+	-- Go pack to starting height
+	while globalPosition[3] > 0 do
+		down()
+	end
+	while globalPosition[3] < 0 do
+		up()
+	end 
+
+	-- Walk to {0,0} in easiest manner
 	while globalFacing[1] ~= -1 do
 		turnLeft()
 	end
@@ -82,6 +107,8 @@ function goHome()
 	while globalPosition[2] > 0 do
 		forward()
 	end
+
+	-- Park for end of program
 	park()
 end
 
