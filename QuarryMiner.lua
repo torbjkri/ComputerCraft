@@ -51,3 +51,54 @@ function Quarry:digSquare(squareSize)
 	end
 end
 
+function Quarry:nextLayer()
+	self.up()
+	self.up()
+	self.up()
+end
+
+function Quarry:isInventoryFull()
+	for i = 1,16 do
+		if turtle.getItemCount(i) == 0 then
+			return false
+	end
+	return true
+end
+
+function Quarry:isEnoughFuel(sizeOfQuarry)
+	local distanceNextLevel = 2*(self.position[1] + self.position[2] + self.position[3]) + sizeOfQuarry
+	if turtle.getFuelLevel() < distanceNextLevel then
+		return false
+	end
+	return true
+end
+
+function Quarry:digLayers(numLayers, layerSize)
+	for i = 1,numLayers
+		if self.isInventoryFull() == true then
+			print("Returning home due to full inventory\n")
+			self.goHome()
+			return
+		end
+		if self.isEnoughFuel(layerSize*layerSize) == false then
+			print("Returning home due to insuffiction fuel\n")
+			self.goHome()
+			return
+		end
+		self.digSquare(layerSize)
+		self.goToStart()
+		if i < numLayers then
+			self.nextLayer()
+		end
+	end
+	self.goHome()
+end
+
+
+function main()
+	myQuarry = Quarry:new(nil)
+	myQuarry:digLayers(2,3)
+end
+
+main()
+

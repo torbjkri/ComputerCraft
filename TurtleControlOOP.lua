@@ -70,7 +70,7 @@ function TurtleControl:down()
 	self.position[3] = self.position[3] - 1
 end
 
-function TurtleControl:goHome()
+function TurtleControl:goToStart()
 	-- Go pack to starting height
 	while self.position[3] > 0 do
 		down()
@@ -94,5 +94,14 @@ function TurtleControl:goHome()
 	end
 
 	-- Park for end of program
-	park()
+	self.turnRight()
+
+end
+
+function TurtleControl: goHome()
+	self.goHome()
+
+	while self.position[3] > 0 do
+		down()
+	end
 end
