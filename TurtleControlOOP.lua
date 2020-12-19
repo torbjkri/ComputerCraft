@@ -1,6 +1,11 @@
 -- Basic API for control of turtle while keeping track of position etc
 
 -- Meta Class
+
+--require "TurtleMock"
+
+
+
 TurtleControl = {position = {0,0,0}
 				, heading = {0,1}}
 
@@ -8,7 +13,7 @@ TurtleControl = {position = {0,0,0}
 
 function TurtleControl:new (o)
 	o = o or {}
-	setmetatable(0, self)
+	setmetatable(o, self)
 	self.__index = self
 	return o
 end
@@ -22,7 +27,7 @@ end
 
 function TurtleControl:turnLeft()
 	turtle.turnLeft()
-	if heading == 1 then
+	if self.heading[1] == 1 then
 		self.heading[1] = 0
 		self.heading[2] = 1
 	elseif self.heading[1] == -1 then
@@ -38,8 +43,8 @@ function TurtleControl:turnLeft()
 end
 
 function TurtleControl:turnRight()
-	turtle.turnLeft()
-	if heading == 1 then
+	turtle.turnRight()
+	if self.heading[1] == 1 then
 		self.heading[1] = 0
 		self.heading[2] = -1
 	elseif self.heading[1] == -1 then
@@ -55,7 +60,7 @@ function TurtleControl:turnRight()
 end
 
 function TurtleControl:up()
-	if turtle.detectUp()
+	if turtle.detectUp() then
 		turtle.digUp()
 	end
 	turtle.up()
@@ -63,7 +68,7 @@ function TurtleControl:up()
 end
 
 function TurtleControl:down()
-	if turtle.detectDown()
+	if turtle.detectDown() then
 		turtle.digDown()
 	end
 	turtle.down()
@@ -71,37 +76,79 @@ function TurtleControl:down()
 end
 
 function TurtleControl:goToStart()
-	-- Go pack to starting height
-	while self.position[3] > 0 do
-		down()
-	end
-	while self.position[3] < 0 do
-		up()
-	end 
-
 	-- Walk to {0,0} in easiest manner
 	while self.heading[1] ~= -1 do
-		turnLeft()
+		self:turnLeft()
 	end
 	while self.position[1] > 0 do
-		forward()
+		self:forward()
 	end
 	while self.heading[2] ~= -1 do
-		turnLeft)()
+		self:turnLeft()
 	end
 	while self.position[2] > 0 do
-		forward()
+		self:forward()
 	end
 
 	-- Park for end of program
-	self.turnRight()
+	while self.heading[2] ~= 1 do
+		self:turnRight()
+	end
 
 end
 
-function TurtleControl: goHome()
-	self.goHome()
-
+function TurtleControl:goHome()
+	self:goToStart()
+	-- Go pack to starting height
 	while self.position[3] > 0 do
-		down()
+		self:down()
+	end
+	while self.position[3] < 0 do
+		self:up()
+	end
+end
+
+function TurtleControl:goToPositionHeading(pos,heading)
+	while self.position[3] < pos[3] do
+		self:up()
+	end
+	while self.position[3] > pos[3] do
+		self:down()
+	end
+
+	if self.position[1] > pos[1] then
+		while self.heading[1] ~= -1 do
+			self:turnLeft()
+		end
+		while self.position[1] > pos[1] do
+			self:forward()
+		end
+	else
+		while self.heading[1] ~= 1 do
+			self:turnLeft()
+		end
+		while self.position[1] < pos[1] do
+			self:forward()
+		end
+	end
+
+	if self.position[2] > pos[2] then
+		while self.heading[2] ~= -1 do
+			self:turnLeft()
+		end
+		while self.position[2] > pos[2] do
+			self:forward()
+		end
+	else
+		while self.heading[2] ~= 1 do
+			self:turnLeft()
+		end
+		while self.position[2] < pos[2] do
+			self:forward()
+		end
+	end
+
+	while self.heading[1] ~= heading[1] do
+		self:turnLeft()
 	end
 end
