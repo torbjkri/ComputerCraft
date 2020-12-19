@@ -1,1 +1,1 @@
-Siggy si mappe
+Sigbjørn si mappe
