@@ -1,4 +1,6 @@
-Turtle = {fuel = 100}
+Turtle = {}
+
+local fuel = 100
 
 function Turtle:new (o)
 	o = o or {}
@@ -8,22 +10,22 @@ function Turtle:new (o)
 end
 
 function Turtle:forward()
-    self.fuel = self.fuel - 1
+    fuel = fuel - 1
     return true
 end
 
 function Turtle:back()
-    self.fuel = self.fuel - 1
+    fuel = fuel - 1
     return true
 end
 
 function Turtle:up()
-    self.fuel = self.fuel - 1
+    fuel = fuel - 1
     return true
 end
 
 function Turtle:down()
-    self.fuel = self.fuel - 1
+    fuel = fuel - 1
     return true
 end
 
@@ -64,16 +66,16 @@ function Turtle:detectDown()
 end
 
 function Turtle:getFuelLevel()
-    return self.fuel
+    return fuel
 end
 
 function Turtle:refuel(value)
-    self.fuel = value
+    fuel = value
     return true
 end
 
 function Turtle:refuel()
-    self.fuel = 3000
+    fuel = 3000
     return true
 end
 
@@ -91,3 +93,4 @@ end
 
 
 turtle = Turtle:new(nil)
+return turtle

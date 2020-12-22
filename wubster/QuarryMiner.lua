@@ -2,8 +2,8 @@
 
 -- os.loadAPI("TurtleControlOOP")
 
---require "TurtleMock"
---require "TurtleControlOOP"
+turtle = require "TurtleMock"
+require "TurtleControl"
 
 Quarry = TurtleControl:new()
 
