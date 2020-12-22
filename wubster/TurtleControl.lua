@@ -2,7 +2,7 @@
 
 -- Meta Class
 
---require "TurtleMock"
+turtle = require "TurtleMock"
 
 
 
