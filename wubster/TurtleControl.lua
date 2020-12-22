@@ -3,11 +3,14 @@
 -- Meta Class
 
 turtle = require "TurtleMock"
-
-
+	
+local headingDirection = {0 = {0,1},
+						  1 = {1,0},
+						  2 = {0,-1},
+						  3 = {-1,0}}
 
 TurtleControl = {position = {0,0,0}
-				, heading = {0,1}}
+				, heading = 0}
 
 -- Class constructor
 
@@ -21,42 +24,18 @@ end
 function TurtleControl:forward()
 	turtle.forward()
 
-	self.position[1] = self.position[1] + self.heading[1]
-	self.position[2] = self.position[2] + self.heading[2]
+	self.position[1] = self.position[1] + headingDirection[self.heading][1]
+	self.position[2] = self.position[2] + headingDirection[self.heading][2]
 end
 
 function TurtleControl:turnLeft()
 	turtle.turnLeft()
-	if self.heading[1] == 1 then
-		self.heading[1] = 0
-		self.heading[2] = 1
-	elseif self.heading[1] == -1 then
-		self.heading[1] = 0
-		self.heading[2] = -1
-	elseif self.heading[2] == 1 then
-		self.heading[1] = -1
-		self.heading[2] = 0
-	else
-		self.heading[1] = 1
-		self.heading[2] = 0
-	end
+	self.heading = (self.heading - 1) % 4
 end
 
 function TurtleControl:turnRight()
 	turtle.turnRight()
-	if self.heading[1] == 1 then
-		self.heading[1] = 0
-		self.heading[2] = -1
-	elseif self.heading[1] == -1 then
-		self.heading[1] = 0
-		self.heading[2] = 1
-	elseif self.heading[2] == 1 then
-		self.heading[1] = 1
-		self.heading[2] = 0
-	else
-		self.heading[1] = -1
-		self.heading[2] = 0
-	end
+	self.heading = (self.heading + 1) % 4
 end
 
 function TurtleControl:up()
