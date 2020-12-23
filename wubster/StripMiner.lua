@@ -29,49 +29,71 @@ local function isUseless(name)
 	return false
 end
 
-local direction = {"forward", "up", "down", "left", "right", "back"}
-
-local function removeFromList(list, el)
-    for index, value in pairs(list) do
-        if value == el then
-            table.remove(list, value)
-            return list
+function checkBlock(cameFrom)
+    -- check left
+    turtle.turnLeft()
+    if isUseless == false then
+        turtle.dig()
+        turtle.forward()
+        checkBlock("back")
+    end
+    -- check middle
+    turtle.turnRight()
+    if isUseless == false then
+        turtle.dig()
+        turtle.forward()
+        checkBlock("back")
+    end
+    -- check right
+    turtle.turnRight()
+    if isUseless() == false then
+        turtle.dig()
+        turtle.forward()
+        checkBlock("back")
+    end    
+    --check back
+    if cameFrom ~= "back" then
+        turtle.turnRight
+        if isUseless == false then
+            turtle.dig()
+            turtle.forward()
+            checkBlock("back")
+            turtle.turnLeft()
         end
+    end
+    -- reset position
+    turtle.turnLeft()
+
+    -- check top
+    if cameFrom ~= "top"
+        if isTopUseless == false then
+            turtle.digUp()
+            turtle.up()
+            checkBlock("bot")
+        end
+    end
+
+    -- check bottom
+    if cameFrom ~= "bot"
+        if isTopUseless == false then
+            turtle.digDown()
+            turtle.down()
+            checkBlock("top")
+        end
+    end
+
+    if cameFrom == "back" then
+        turtle.turnLeft()
+        turtle.turnLeft()
+        turtle.forward()
+        turtle.turnLeft()
+        turtle.turnLeft()
+    else if cameFrom == "top" then
+        turtle.up()
+    else if cameFrom == "bot" then
+        turtle.down()
+    else
+        print("cameFrom value not valid: " ..cameFrom..)
     end
 end
 
-StripLocation = {needsSearch = {},
-                 cameFrom = "",
-                currentHeading = ""}
-
-function StripLocation:new(o, from)
-    o = o or {}
-    setmetatable(o, self)
-    self.__index = self
-    self.needsSearch = direction
-    self.cameFrome = from
-    self.needsSearch = removeFromList(needsSearch, from)
-    self.currentHeading = "forward"
-    return o
-end
-
-
-function Stripper:new(o)
-    o = o or TurtleControl:new(o)
-    setmetatable(o, self)
-    self.__index = self
-    return o
-end
-
-
-
-
-
-
-
-
-
-
-function Stripper:strip()
-    while
-end
