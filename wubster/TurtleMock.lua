@@ -70,7 +70,7 @@ function Turtle:getFuelLevel()
 end
 
 function Turtle:refuel(value)
-    fuel = value
+    fuel = fuel + value
     return true
 end
 
